@@ -9,12 +9,13 @@ import com.amarj.repository.UserDashboardRepository
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import java.time.Instant
 import java.time.LocalDateTime
 
 @Service
 class UserDashboardService (private val repo: UserDashboardRepository){
 
-    fun create(req: UserDashboardRequest): Mono<UserDashboardResponse> =
+    fun createUserDashboard(req: UserDashboardRequest): Mono<UserDashboardResponse> =
         repo.save(
             UserDashboard(
                 name = req.name,
@@ -25,12 +26,12 @@ class UserDashboardService (private val repo: UserDashboardRepository){
             )
         ).map { it.toResponse() }
 
-    fun get(id: Long): Mono<UserDashboardResponse> =
+    fun getAllUserDashboardList(id: Long): Mono<UserDashboardResponse> =
         repo.findById(id)
             .switchIfEmpty(Mono.error(DashboardNotFoundException(id)))
             .map { it.toResponse() }
 
-    fun update(id: Long, req: UserDashboardRequest): Mono<UserDashboardResponse> =
+    fun updateUserDashboard(id: Long, req: UserDashboardRequest): Mono<UserDashboardResponse> =
         repo.findById(id)
             .switchIfEmpty(Mono.error(DashboardNotFoundException(id)))
             .flatMap {
@@ -43,12 +44,12 @@ class UserDashboardService (private val repo: UserDashboardRepository){
                 repo.save(updated)
             }.map { it.toResponse() }
 
-    fun delete(id: Long): Mono<Void> =
+    fun deleteUserDashboard(id: Long): Mono<Void> =
         repo.findById(id)
             .switchIfEmpty(Mono.error(DashboardNotFoundException(id)))
             .flatMap { repo.delete(it) }
 
-    fun list(): Flux<UserDashboardResponse> =
+    fun listUserDashboard(): Flux<UserDashboardResponse> =
         repo.findAll().map { it.toResponse() }
 
 

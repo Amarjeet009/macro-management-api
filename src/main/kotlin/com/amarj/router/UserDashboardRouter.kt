@@ -13,11 +13,11 @@ class UserDashboardRouter {
     @Bean
     fun route(handler: UserDashboardHandler): RouterFunction<ServerResponse> = router {
         "/api/dashboards".nest {
-            POST("", handler::create)
-            GET("", handler::list)
-            GET("/{id}", handler::get)
-            PUT("/{id}", handler::update)
-            DELETE("/{id}", handler::delete)
+            POST("/save", handler::create)
+            GET("/getAll", handler::list)
+            GET("/getBy/{id}", handler::get)
+            PUT("/updateBy/{id}", handler::update)
+            DELETE("/deleteBy/{id}", handler::delete)
         }
     }
 }

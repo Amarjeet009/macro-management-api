@@ -6,7 +6,7 @@ spring:
 ---
 
 server:
-  port: 8085
+  port: 8086
 
 ---
 spring:
@@ -14,12 +14,38 @@ spring:
     web-application-type: reactive
 
   r2dbc:
-    url: r2dbc:postgresql://localhost:5434/postgres?currentSchema=mg-usr
+    url: r2dbc:postgresql://localhost:5434/user-micro-mng?currentSchema=mgusr
     username: careered
     password: amar1404
 
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+    pool:
+      initial-size: 5
+      max-size: 20
+      max-idle-time: 30m
+      validation-query: SELECT 1
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
 ---
+#logging:
+#  level:
+#    root: INFO
+#    org.springframework: DEBUG
+
 logging:
   level:
     root: INFO
     org.springframework: DEBUG
+    io.r2dbc.postgresql.QUERY: DEBUG
+    org.springframework.data.r2dbc: DEBUG
+    org.springframework.r2dbc.core: DEBUG
+    org.springframework.r2dbc.connection: DEBUG
+
+
